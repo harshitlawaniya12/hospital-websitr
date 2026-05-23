@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hope Care Superspeciality Hospital</title>
+    <style>
+        /* Global Styles & Variables */
+        :root {
+            --primary: #0056b3;
+            --secondary: #28a745;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        header {
+            background: white;
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary);
+        }
+
+        .emergency-btn {
+            background: #dc3545;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,86,179,0.1), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&w=1920&q=80') center/cover;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            background: rgba(30, 41, 59, 0.85);
+            padding: 2.5rem;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero h1 { font-size: 2.8rem; margin-bottom: 1rem; }
+        .hero p { margin-bottom: 1.5rem; font-size: 1.1rem; }
+        .btn {
+            background: var(--secondary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* Dashboard / Quick Functions Quick Tabs */
+        .section-padding { padding: 5rem 5%; }
+        .section-title { text-align: center; margin-bottom: 3rem; font-size: 2.2rem; color: var(--primary); }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .service-card:hover { transform: translateY(-5px); }
+        .service-icon { font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary); }
+
+        /* Dynamic Department Filter */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .dept-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .dept-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .dept-info { padding: 1.5rem; }
+
+        /* Interactive Booking Form */
+        .booking-container {
+            background: white;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group label { font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        /* Patient Dashboard Simulation Component */
+        .dashboard-sim {
+            background: #e2e8f0;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .queue-status {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5% 1rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 2rem;
+        }
+
+        .footer-col h3 { margin-bottom: 1rem; color: #38bdf8; }
+        .footer-col ul { list-style: none; }
+        .footer-col a { color: #94a3b8; text-decoration: none; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { text-align: center; padding-top: 1.5rem; color: #64748b; font-size: 0.9rem; }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        .success-msg { color: var(--secondary); font-weight: bold; text-align: center; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="logo">🏥 Hope Care Hospital</div>
+        <nav>
+            <ul>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#departments">Departments</a></li>
+                <li><a href="#portal">Patient Portal</a></li>
+                <li><a href="#appointment">Book Appointment</a></li>
+            </ul>
+        </nav>
+        <a href="tel:911" class="emergency-btn">EMERGENCY: 911</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Advanced Healthcare, Closer to You</h1>
+            <p>Combining world-class medical experts, cutting-edge technology, and compassionate care to drive next-generation healthcare development programs.</p>
+            <a href="#appointment" class="btn">Schedule a Visit Now</a>
+        </div>
+    </section>
+
+    <!-- Core Services Grid -->
+    <section id="services" class="section-padding">
+        <h2 class="section-title">Comprehensive Medical Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🎛️</div>
+                <h3>24/7 Advanced ICU</h3>
+                <p>Equipped with smart life-support systems and continuous specialized monitoring.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🧪</div>
+                <h3>Automated Lab</h3>
+                <p>High-speed, AI-assisted pathology and diagnostic imaging reports within hours.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">💊</div>
+                <h3>Smart Pharmacy</h3>
+                <p>Digital prescription integration for immediate, error-free medicine distribution.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🛸</div>
+                <h3>Telemedicine Hub</h3>
+                <p>Consult with country-leading specialists from the absolute comfort of your home.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dynamic Department Filtration Section -->
+    <section id="departments" class="section-padding" style="background: #f1f5f9;">
+        <h2 class="section-title">Specialized Development Centers</h2>
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterDepts('all')">All Departments</button>
+            <button class="filter-btn" onclick="filterDepts('surgical')">Surgical</button>
+            <button class="filter-btn" onclick="filterDepts('medical')">General Medical</button>
+        </div>
+
+        <div class="dept-container">
+            <div class="dept-card" data-category="surgical">
+                <div class="dept-info">
+                    <h3>Cardiology & Heart Surgery</h3>
+                    <p>State-of-the-art Cath Labs performing complex robotic-assisted angioplasties and bypass surgeries.</p>
+                </div>
+            </div>
+            <div class="dept-card" data-category="medical">
+                <div class="dept-info">
+                    <h3>Neurology Center</h3>
+                    <p>Advanced treatment protocols for stroke management, neuro-developmental therapy, and sleep disorders.</p>
+                </div>
+            </div>
+            <div class="dept-card" data-category="surgical">
+                <div class="dept-info">
+                    <h3>Orthopedics & Joint Replacement</h3>
+                    <p>Minimally invasive keyhole joint surgeries and comprehensive physical rehabilitation tracking systems.</p>
+                </div>
+            </div>
+            <div class="dept-card" data-category="medical">
+                <div class="dept-info">
+                    <h3>Pediatrics & Neonatal Care</h3>
+                    <p>Dedicated Level-III NICU environment providing specialized focus on infant development and wellness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Patient Portal / Live Simulation Section -->
+    <section id="portal" class="section-padding">
+        <h2 class="section-title">Live Patient Portal Dashboard</h2>
+        <div class="booking-container">
+            <p style="text-align: center; margin-bottom: 1.5rem;">Below is a live mock simulation of the hospital's central patient monitoring framework.</p>
+            
+            <div class="dashboard-sim">
+                <div class="queue-status">
+                    <div><strong>Emergency Cases:</strong> <span id="emer-count" style="color:#dc3545;">2</span></div>
+                    <div><strong>OPD Waiting List:</strong> <span id="opd-count">14 Users</span></div>
+                    <div><strong>Available Doctors:</strong> <span style="color:#28a745;">32 Active</span></div>
+                </div>
+                <button class="btn" style="width: 100%; background: var(--dark);" onclick="simulateLiveUpdate()">Simulate Live Infrastructure Update</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Appointment Form -->
+    <section id="appointment" class="section-padding" style="background: #e2e8f0;">
+        <h2 class="section-title">Book Digital Appointment Slot</h2>
+        <div class="booking-container">
+            <form id="appointmentForm" onsubmit="handleBooking(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="pName">Patient Full Name</label>
+                        <input type="text" id="pName" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="pPhone">Contact Number</label>
+                        <input type="tel" id="pPhone" required placeholder="555-0199">
+                    </div>
+                    <div class="form-group">
+                        <label for="pDept">Choose Department</label>
+                        <select id="pDept" required>
+                            <option value="">-- Select --</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Neurology">Neurology</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="pDate">Preferred Date</label>
+                        <input type="date" id="pDate" required>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label for="pNotes">Brief Symptoms / Notes</label>
+                    <textarea id="pNotes" rows="3" placeholder="Describe symptoms briefly..."></textarea>
+                </div>
+                <button type="submit" class="btn" style="width:100%;">Confirm Appointment Submission</button>
+                <div id="successMsg" class="success-msg hidden"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer Area -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Hope Care</h3>
+                <p>Pioneering modern medical excellence through advanced continuous technology development programs.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Nav links</h3>
+                <ul>
+                    <li><a href="#home">Home Base</a></li>
+                    <li><a href="#services">Our Focus</a></li>
+                    <li><a href="#departments">Infrastructure</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Desk</h3>
+                <p>📍 100 Medical Plaza Way, Suite 400</p>
+                <p>📞 Phone: (555) 019-9234</p>
+                <p>✉️ info@hopecarehospital.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Hope Care Healthcare Networks Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Logic JavaScript Core -->
+    <script>
+        // 1. Department Filtering Engine
+        function filterDepts(category) {
+            // Update active state of buttons
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter system cards
+            const cards = document.querySelectorAll('.dept-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // 2. Appointment Process Engine
+        function handleBooking(event) {
+            event.preventDefault();
+            
+            // Get data values
+            const name = document.getElementById('pName').value;
+            const dept = document.getElementById('pDept').value;
+            const date = document.getElementById('pDate').value;
+            
+            // Create target dynamic message container
+            const msgBox = document.getElementById('successMsg');
+            msgBox.innerHTML = `🎉 Booking confirmed for <strong>${name}</strong> in the <strong>${dept}</strong> department on <strong>${date}</strong>. A tracking ID token has been messaged to your device.`;
+            msgBox.classList.remove('hidden');
+            
+            // Reset fields
+            document.getElementById('appointmentForm').reset();
+        }
+
+        // 3. Simulated Live Counter Updates 
+        function simulateLiveUpdate() {
+            const emerCount = document.getElementById('emer-count');
+            const opdCount = document.getElementById('opd-count');
+            
+            // Generate simple randomized shifts simulating live data stream
+            const newEmer = Math.floor(Math.random() * 5);
+            const newOpd = Math.floor(Math.random() * 15) + 5;
+            
+            emerCount.innerText = newEmer;
+            opdCount.innerText = `${newOpd} Users`;
+        }
+
+        // Basic Auto Scroll spy highlighting active navigation links
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav ul li a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
